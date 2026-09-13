@@ -20,6 +20,7 @@ def load_high_scores():
     except Exception:
         pass
     return scores_list
+
 def save_high_score(player_name, difficulty_level, remaining_score):
     """Reads existing scores, adds the new score, and writes top 10 back to file."""
     scores_list = load_high_scores()
@@ -40,6 +41,30 @@ def save_high_score(player_name, difficulty_level, remaining_score):
                 )
     except Exception as error:
         print(f"Could not save high score: {error}")
+
+def display_leaderboard():
+    """Displays the top high scores from the text file."""
+    scores_list = load_high_scores()
+    if not scores_list:
+        print("\nNo high scores recorded yet!")
+        return
+
+    print("\nLEADERBOARD (Top Scores)")
+    print(f"{'Rank':<6}{'Player':<15}{'Level':<10}{'Score':<6}")
+    print("~" * 35)
+
+    # Grab just the top 5 scores
+    top_5 = scores_list[:5]
+    
+    # Start our rank counter at 1
+    rank_number = 1
+    
+    # Loop through the top 5 scores
+    for score_entry in top_5:
+        #The <6 moves the characters to align left and gives it only 6 character space to fill
+        print(f"{rank_number:<6}{score_entry['name']:<15}{score_entry['difficulty']:<10}{score_entry['score']:<6}")
+        # Add 1 to the rank for the next person
+        rank_number += 1
 
 def start_game():
     print("Welcome to Guess the Number Game!")
@@ -121,4 +146,5 @@ def start_game():
                 print("Hint: The secret number is between 51 and 100.")
     if attempts_left == 0:
         print(f"\nGame Over! The secret number was {secret_number}.")
+    display_leaderboard()
 start_game()
