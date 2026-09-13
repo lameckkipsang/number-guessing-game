@@ -44,7 +44,15 @@ def save_high_score(player_name, difficulty_level, remaining_score):
 def start_game():
     print("Welcome to Guess the Number Game!")
 
-    username = input("Enter your username: ").strip()
+    # Validate username input (forces user to type something)
+    while True:
+        try:
+            username = input("Enter your username: ").strip()
+            if not username:
+                raise ValueError("Username cannot be empty. Please enter a valid username.")
+            break
+        except ValueError as error:
+            print(error)
 
     difficulties = {
         "1": {"name": "Easy", "tries": 10},
