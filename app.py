@@ -104,10 +104,7 @@ def start_game():
     secret_number = random.randint(1, 100)
     wrong_tries = 0
 
-    print(
-        f"\nI have picked a number between 1 and 100. You have {attempts_left}"
-        f" tries in {level_name} mode!"
-    )
+    print(f"\nI have picked a number between 1 and 100. You have {attempts_left} tries in {level_name} mode!")
     while attempts_left > 0:
         print(f"\nRemaining Tries: {attempts_left}")
         # Validate guess input
@@ -127,10 +124,7 @@ def start_game():
             except ValueError as error:
                 print(f"{error}")
         if guess == secret_number:
-            print(
-                f"\nCorrect! {username}, you guessed the secret number"
-                f" {secret_number}!"
-            )
+            print(f"\nCorrect! {username}, you guessed the secret number: {secret_number}!")
             save_high_score(username, level_name, attempts_left)
             break
         elif guess < secret_number:
