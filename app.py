@@ -1,4 +1,25 @@
 import random
+import os
+
+highscore_file = "high_scores.txt"
+
+def load_high_scores():
+    """Reads and returns the list of saved high scores."""
+    scores_list = []
+    try:
+        if os.path.exists(highscore_file):
+            with open(highscore_file, "r") as score_file:
+                for score_line in score_file:
+                    parts = score_line.strip().split(",")
+                    if len(parts) == 3:
+                        scores_list.append({
+                            "name": parts[0],
+                            "difficulty": parts[1],
+                            "score": int(parts[2]),
+                        })
+    except Exception:
+        pass
+    return scores_list
 
 def start_game():
     print("Welcome to Guess the Number Game!")
