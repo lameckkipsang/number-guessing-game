@@ -20,6 +20,26 @@ def load_high_scores():
     except Exception:
         pass
     return scores_list
+def save_high_score(player_name, difficulty_level, remaining_score):
+    """Reads existing scores, adds the new score, and writes top 10 back to file."""
+    scores_list = load_high_scores()
+    scores_list.append({
+        "name": player_name,
+        "difficulty": difficulty_level,
+        "score": remaining_score,
+    })
+
+    scores_list.sort(key=lambda score_entry: score_entry["score"], reverse=True) #reverse=True sorts items from highest to lowest
+    top_scores = scores_list[:10]
+
+    try:
+        with open(highscore_file, "w") as score_file:
+            for score_entry in top_scores:
+                score_file.write(
+                    f"{score_entry['name']},{score_entry['difficulty']},{score_entry['score']}\n"
+                )
+    except Exception as error:
+        print(f"Could not save high score: {error}")
 
 def start_game():
     print("Welcome to Guess the Number Game!")
@@ -78,6 +98,7 @@ def start_game():
                 f"\nCorrect! {username}, you guessed the secret number"
                 f" {secret_number}!"
             )
+            save_high_score(username, level_name, attempts_left)
             break
         elif guess < secret_number:
             print("Too Low!")
